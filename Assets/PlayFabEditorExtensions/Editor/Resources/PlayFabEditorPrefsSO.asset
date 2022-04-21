@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevAccountEmail: fsb1skull@mail.ru
   DevAccountToken: tb4zytdc995w5of8o97fxzpihox8cz53xtw914wzswbedky1okyyjk3aft3isdrkden8k4w7hdymp5mgaapfrok91cncci4qro41mcr9obj5x7rpob5jn79q4nkm1bzo9efr4m65big3nts9eawks17ra5cr3rs9msegygqcxhc6haigjdznacki4p9k1cfw7itmny3e
-  SelectedStudio: 
+  SelectedStudio: BATTLETOAD IN
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 0
+  curMainMenuIdx: 1
   curSubMenuIdx: 0
