@@ -6,7 +6,12 @@ using UnityEngine;
 
 public class PhotonLogin : MonoBehaviourPunCallbacks
 {
-    string gameVersion = "1";     
+    string gameVersion = "1";
+    [SerializeField]
+    GameObject obgForTextComponent;
+    [SerializeField]
+    GameObject _loaderWrapper;
+
 
     void Awake()
     {
@@ -14,7 +19,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     }
      void Start()
     {
-       // Connect();
+        // Connect();
+       
     }
 
     public void Connect()
@@ -22,13 +28,14 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.JoinRandomRoom();
+            Debug.LogError("Вы уже подключенны так что вызвана команда PhotonNetwork.JoinRandomRoom(); " + "Статус соеденения: " + PhotonNetwork.IsConnected);
         }
         else
         {
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
+            _loaderWrapper.SetActive(true);
         }
-
     }
         public void DisConnect()
     {
@@ -39,8 +46,8 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
         else
         {
             Debug.LogError($"Photon is alredy disconnected: {PhotonNetwork.IsConnected}");
-            GetComponentInParent<TMP_Text>().text = "fail to connect";
-            GetComponentInParent<TMP_Text>().color = new Color32(147, 23, 27, 255);
+            obgForTextComponent.GetComponent<TMP_Text>().text = "fail to connect";
+            obgForTextComponent.GetComponent<TMP_Text>().color = new Color32(147, 23, 27, 255);
         }
 
     }
@@ -48,22 +55,25 @@ public class PhotonLogin : MonoBehaviourPunCallbacks
     public override void OnConnected()
     {
         Debug.Log($"Photon callbacks | Congratulation, you made successful API call! {PhotonNetwork.CloudRegion }, ping: {PhotonNetwork.GetPing()}");
-        GetComponentInParent<TMP_Text>().text = "Connected";
-        GetComponentInParent<TMP_Text>().color = new Color32(8, 130, 0, 255);
+        _loaderWrapper.SetActive(false);
+        obgForTextComponent.GetComponent<TMP_Text>().text = "Connected";
+        obgForTextComponent.GetComponent<TMP_Text>().color = new Color32(8, 130, 0, 255);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogError($"Something went wrong: {cause}");
-        GetComponentInParent<TMP_Text>().text = "fail to connect";
-        GetComponentInParent<TMP_Text>().color = new Color32(147, 23, 27, 255);
+        _loaderWrapper.SetActive(false);
+        obgForTextComponent.GetComponent<TMP_Text>().text = "fail to connect";
+        obgForTextComponent.GetComponent<TMP_Text>().color = new Color32(147, 23, 27, 255);
     }
 
     public override void OnCustomAuthenticationFailed(string messageDebug)
     {
         Debug.LogError($"Something went wrong: {messageDebug}");
-        GetComponentInParent<TMP_Text>().text = "fail to connect";
-        GetComponentInParent<TMP_Text>().color = new Color32(147, 23, 27, 255);
+        _loaderWrapper.SetActive(false);
+        obgForTextComponent.GetComponent<TMP_Text>().text = "fail to connect";
+        obgForTextComponent.GetComponent<TMP_Text>().color = new Color32(147, 23, 27, 255);
     }
     
 }
