@@ -10,6 +10,9 @@ public class loadingScreenScript : MonoBehaviour
 
     private void Update()
     {
+        if (transform.gameObject.activeInHierarchy)
         _image.transform.rotation *= Quaternion.Euler(50 * Time.deltaTime, 0, 0);
+       
     }
+
 }
