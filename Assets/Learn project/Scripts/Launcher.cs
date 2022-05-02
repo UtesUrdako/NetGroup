@@ -5,6 +5,7 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
+    public static bool isConnectedToMaster;
     /// <summary>
     /// This client's version number. Users are separated from each other bygameVersion (which allows you to make breaking changes).
     /// </summary>
@@ -23,7 +24,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     /// </summary>
     void Start()
     {
-        Connect();
+        //Connect();
     }
     /// <summary>
     /// Start the connection process.
@@ -32,23 +33,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     /// </summary>
     public void Connect()
     {
-        // we check if we are connected or not, we join if we are , else we initiatethe connection to the server.
-        if (PhotonNetwork.IsConnected)
-        {
-            // #Critical we need at this point to attempt joining a Random Room. Ifit fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-            PhotonNetwork.JoinRandomRoom();
-        }
-        else
-        {
-            // #Critical, we must first and foremost connect to Photon OnlineServer.
-            PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
-        }
+        // #Critical, we must first and foremost connect to Photon OnlineServer.
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.GameVersion = gameVersion;
     }
 
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+        PhotonNetwork.JoinRandomOrCreateRoom();
+        isConnectedToMaster = true;
         Debug.Log($"Successful connected to master! Region: {PhotonNetwork.CloudRegion}, ping: {PhotonNetwork.GetPing()}");
     }
 }

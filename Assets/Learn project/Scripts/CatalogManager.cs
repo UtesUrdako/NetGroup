@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayFab;
@@ -7,7 +8,17 @@ using UnityEngine;
 
 public class CatalogManager : MonoBehaviour
 {
-    private Dictionary<string, CatalogItem> _catalog = new Dictionary<string, CatalogItem>();
+    private static Dictionary<string, CatalogItem> _catalog = new Dictionary<string, CatalogItem>();
+    public static CatalogManager Instance;
+    public bool isLoaded;
+    
+    public CatalogItem this[string id] => 
+        _catalog.ContainsKey(id) ? _catalog[id] : default;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -21,6 +32,7 @@ public class CatalogManager : MonoBehaviour
     private void ResultCallback(GetCatalogItemsResult obj)
     {
         HandleCatalog(obj.Catalog);
+        isLoaded = true;
         Debug.Log("Catalog was loaded successfully!");
     }
 
@@ -29,7 +41,7 @@ public class CatalogManager : MonoBehaviour
         foreach (var catalogItem in catalog)
         {
             _catalog.Add(catalogItem.ItemId, catalogItem);
-            Debug.Log($"Catalog item \"{catalogItem.DisplayName}\" was added!");
+            //Debug.Log($"Catalog item \"{catalogItem.DisplayName}\" was added!");
         }
     }
 

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -26,7 +28,7 @@ public class PlayFabLogin : MonoBehaviour
      {
           Debug.Log($"Congratulations, you made successful API call! ID = {_guid}");
           PlayerPrefs.SetString(AutorizationIdKey, _guid);
-          
+          //StartCoroutine(WaitPhoton());
           SceneManager.LoadScene("Lobby");
      }
      
@@ -35,5 +37,10 @@ public class PlayFabLogin : MonoBehaviour
           var errorMessage = error.GenerateErrorReport();
           Debug.LogError($"Something went wrong: {errorMessage}");
      }
-    
+
+     private IEnumerator WaitPhoton()
+     {
+          yield return new WaitUntil(() => Launcher.isConnectedToMaster);
+          SceneManager.LoadScene("Lobby");
+     }
 }
