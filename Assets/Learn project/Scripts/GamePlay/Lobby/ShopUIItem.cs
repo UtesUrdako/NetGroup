@@ -1,33 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using PlayFab;
 using UnityEngine;
 using UnityEngine.UI;
 using PlayFab.ClientModels;
 
-public class ShopUIItem : MonoBehaviour
+public class ShopUIItem : UIItem
 {
-    [SerializeField] private Text _nameItemText;
-    [SerializeField] private Text _priceItemText;
-    [SerializeField] private Text _idItemText;
-    [SerializeField] private Image _iconItemImage;
-
-    public void SetShopItem(CatalogItem item, List<Sprite> icons)
+    public override void SetShopItem(Action action, CatalogItem item, List<Sprite> icons)
     {
-        _nameItemText.text = item.DisplayName;
-        _priceItemText.text = "GD " + item.VirtualCurrencyPrices["GD"];
-        _idItemText.text = item.ItemId;
-        _iconItemImage.sprite = GetIconToItem(item.ItemId, icons);
-
-    }
-
-    private Sprite GetIconToItem(string id, List<Sprite> icons)
-    {
-        switch (id)
+        base.SetShopItem(action, item, icons);
+        
+        GetComponent<Button>().onClick.AddListener(() =>
         {
-            case "cnt1":
-                return icons[0];
-        }
-
-        return default;
+            PlayFabClientAPI.PurchaseItem(new PurchaseItemRequest
+            {
+                CatalogVersion = "0.1",
+                ItemId = _item.ItemId,
+                Price = (int)_price.Value,
+                VirtualCurrency = _price.Key
+            }, result =>
+            {
+                _action?.Invoke();
+            }, Debug.LogError);
+        });
     }
 }

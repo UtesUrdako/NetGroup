@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviourPun
 {
     private Animator m_Animator;
     private float _cooldownTime = 3f;
@@ -16,6 +17,9 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (PhotonNetwork.IsConnected && !photonView.IsMine)
+            return;
+        
         if (Input.GetMouseButtonDown(0) && !_isCooldown)
         {
             _isCooldown = true;

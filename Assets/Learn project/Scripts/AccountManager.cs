@@ -19,7 +19,7 @@ public class AccountManager : MonoBehaviour
     {
         _deletePlayerButton.onClick.AddListener(PlayerPrefs.DeleteAll);
         //_namePlayerPanel.onSaveSucces
-        
+        //PlayFabClientAPI.GetPlayerProfile();
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(),
         result =>
         {

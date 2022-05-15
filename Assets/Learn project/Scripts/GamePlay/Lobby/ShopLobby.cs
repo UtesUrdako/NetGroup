@@ -11,6 +11,7 @@ public class ShopLobby : MonoBehaviour
     
     [SerializeField] private ShopUIItem _shopItemPrefab;
     [SerializeField] private Transform _contentShop;
+    [SerializeField] private InventoryLobby _inventory;
 
     private IEnumerator Start()
     {
@@ -23,9 +24,14 @@ public class ShopLobby : MonoBehaviour
         {
             foreach (var item in result.Store)
             {
-                Instantiate(_shopItemPrefab, _contentShop).SetShopItem(CatalogManager.Instance[item.ItemId], icons);
+                Instantiate(_shopItemPrefab, _contentShop).SetShopItem(_inventory.UpdateInventory, CatalogManager.Instance[item.ItemId], icons);
                 Debug.Log($"Item: {CatalogManager.Instance[item.ItemId].DisplayName}");
             }
         }, Debug.LogError);
+    }
+
+    public void UpdateInventory()
+    {
+        _inventory.UpdateInventory();
     }
 }

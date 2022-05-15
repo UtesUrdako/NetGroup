@@ -108,9 +108,9 @@ GameObject:
   - component: {fileID: 1052873684306144194}
   - component: {fileID: 7925672771019655116}
   - component: {fileID: 2655572033626615315}
-  - component: {fileID: 469676914372397676}
+  - component: {fileID: 1281167799335249088}
   m_Layer: 5
-  m_Name: Shop item
+  m_Name: Inventory item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,7 +241,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &469676914372397676
+--- !u!114 &1281167799335249088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056399877540952829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe137a6d7bd80d46b4573467e5308bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 277e8289049d14c48929ec3becc2d8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameItemText: {fileID: 4179934063174995298}
