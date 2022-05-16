@@ -36,7 +36,8 @@ public class InventoryLobby : MonoBehaviour
             foreach (var item in result.Inventory)
             {
                 _items.Add(Instantiate(_shopItemPrefab, _contentShop));
-                    _items.Last().SetShopItem(UpdateInventory, CatalogManager.Instance[item.ItemId], icons);
+                _items.Last().SetUseInventoryItem(UpdateInventory, CatalogManager.Instance[item.ItemId], icons);
+                (_items.Last() as InventoryUIItem)._inventoryItem = item;
                 Debug.Log($"Item: {CatalogManager.Instance[item.ItemId].DisplayName}");
             }
 

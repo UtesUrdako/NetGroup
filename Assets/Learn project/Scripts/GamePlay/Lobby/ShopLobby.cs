@@ -24,7 +24,7 @@ public class ShopLobby : MonoBehaviour
         {
             foreach (var item in result.Store)
             {
-                Instantiate(_shopItemPrefab, _contentShop).SetShopItem(_inventory.UpdateInventory, CatalogManager.Instance[item.ItemId], icons);
+                Instantiate(_shopItemPrefab, _contentShop).SetUseInventoryItem(_inventory.UpdateInventory, CatalogManager.Instance[item.ItemId], icons);
                 Debug.Log($"Item: {CatalogManager.Instance[item.ItemId].DisplayName}");
             }
         }, Debug.LogError);

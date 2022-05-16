@@ -8,35 +8,36 @@ using PlayFab.ClientModels;
 
 public sealed class InventoryUIItem : UIItem
 {
-    public override void SetShopItem(Action action, CatalogItem item, List<Sprite> icons)
+    public ItemInstance _inventoryItem;
+    
+    public override void SetUseInventoryItem(Action action, CatalogItem item, List<Sprite> icons)
     {
-        base.SetShopItem(action, item, icons);
+        base.SetUseInventoryItem(action, item, icons);
         
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            switch (_item.Tags[0])
+            if (_item.Tags.Count > 0)
             {
-                case "prize":
-                case "box":
-                    PlayFabClientAPI.UnlockContainerItem(new UnlockContainerItemRequest() {
-                        CatalogVersion = _item.CatalogVersion,
-                        ContainerItemId = _item.ItemId
-                    }, result =>
-                    {
-                        _action?.Invoke();
-                    }, Debug.LogError);
-                    break;
-                default:
-                    PlayFabClientAPI.ConsumeItem(new ConsumeItemRequest()
-                    {
-                        ConsumeCount = 1,
-                        ItemInstanceId = _item.ItemId
-                    }, result =>
-                    {
-                        _action?.Invoke();
-                    }, Debug.LogError);
-                    break;
+                switch (_item.Tags[0])
+                {
+                    case "prize":
+                    case "box":
+                        PlayFabClientAPI.UnlockContainerItem(new UnlockContainerItemRequest()
+                        {
+                            CatalogVersion = _item.CatalogVersion,
+                            ContainerItemId = _item.ItemId
+                        }, result => { _action?.Invoke(); }, Debug.LogError);
+                        return;
+                }
             }
+            PlayFabClientAPI.ConsumeItem(new ConsumeItemRequest()
+            {
+                ConsumeCount = 1,
+                ItemInstanceId = _inventoryItem.ItemInstanceId
+            }, result =>
+            {
+                _action?.Invoke();
+            }, Debug.LogError);
             
         });
     }

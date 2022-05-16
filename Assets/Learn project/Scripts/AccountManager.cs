@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class AccountManager : MonoBehaviour
 {
+    public static string PlayFabID;
     [SerializeField] private TMP_Text _playerNameText;
     [SerializeField] private TMP_Text _playerCreateTimeText;
     [SerializeField] private Button _deletePlayerButton;
@@ -24,7 +25,7 @@ public class AccountManager : MonoBehaviour
         result =>
         {
             Debug.Log($"PlayFab ID: {result.AccountInfo.PlayFabId}");
-
+            PlayFabID = result.AccountInfo.PlayFabId;
             _playerNameText.text = $"PlayFab ID: {result.AccountInfo.PlayFabId}";
             _playerCreateTimeText.text = $"Player was created at: {result.AccountInfo.Created.ToShortDateString()}";
             

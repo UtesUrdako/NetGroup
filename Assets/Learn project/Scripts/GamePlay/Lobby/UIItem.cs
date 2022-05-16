@@ -17,7 +17,7 @@ public class UIItem : MonoBehaviour
     protected KeyValuePair<string, uint> _price;
     protected Action _action;
 
-    public virtual void SetShopItem(Action action, CatalogItem item, List<Sprite> icons)
+    public virtual void SetUseInventoryItem(Action action, CatalogItem item, List<Sprite> icons)
     {
         _action = action;
         _item = item;

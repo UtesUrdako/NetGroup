@@ -8,9 +8,9 @@ using PlayFab.ClientModels;
 
 public class ShopUIItem : UIItem
 {
-    public override void SetShopItem(Action action, CatalogItem item, List<Sprite> icons)
+    public override void SetUseInventoryItem(Action action, CatalogItem item, List<Sprite> icons)
     {
-        base.SetShopItem(action, item, icons);
+        base.SetUseInventoryItem(action, item, icons);
         
         GetComponent<Button>().onClick.AddListener(() =>
         {
