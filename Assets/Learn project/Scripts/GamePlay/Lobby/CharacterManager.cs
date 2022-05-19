@@ -7,13 +7,14 @@ using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviourPunCallbacks
 {
     private const string GOLD = "GD";
     
     [SerializeField] private GameObject _enterNamePanel;
     [SerializeField] private Button _createNewCharacter;
     private string _characterName;
+    public static string _playCharacterName;
 
     [Space(20)]
     [SerializeField] private Button[] _addCharacters;
@@ -23,12 +24,24 @@ public class CharacterManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateCharacterSlots();
-        
+
         foreach (var character in _addCharacters)
+        {
+            character.gameObject.SetActive(false);
             character.onClick.AddListener(() => _enterNamePanel.SetActive(true));
-        foreach (var character in _useCharacters)
-            character.onClick.AddListener(() => PhotonNetwork.LoadLevel(1));
+        }
+
+        for (int i = 0; i < _useCharacters.Length; i++)
+        //foreach (var character in _useCharacters)
+        {
+            var temp = i;
+            _useCharacters[i].gameObject.SetActive(false);
+            _useCharacters[i].onClick.AddListener(() =>
+            {
+                _playCharacterName = _useCharacters[temp].transform.GetChild(0).GetComponent<Text>().text;
+                PhotonNetwork.LoadLevel(2);
+            });
+        }
         
         _createNewCharacter.onClick.AddListener(GetCharacterTokens);
     }
@@ -141,5 +154,11 @@ public class CharacterManager : MonoBehaviour
     {
         Debug.LogError(error.GenerateErrorReport());
         _createNewCharacter.interactable = true;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        UpdateCharacterSlots();
     }
 }

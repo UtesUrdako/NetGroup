@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviourPun
     public float turnSpeed = 20f;
     Quaternion m_Rotation = Quaternion.identity;
     Rigidbody m_Rigidbody;
-
+    private Camera _camera;
     AudioSource source;
 
     public float speed = 1f;
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviourPun
         source = GetComponent<AudioSource>();
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -32,11 +33,23 @@ public class PlayerMovement : MonoBehaviourPun
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        m_Movement.Set(horizontal, 0f, vertical);
+        if (Input.GetMouseButton(0))
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hit))
+            {
+                var direction = hit.point - transform.position;
+                m_Movement.Set(direction.x, 0f, direction.z);
+            }
+        }
+        else
+        {
+            m_Movement.Set(horizontal, 0f, vertical);
+        }
+
         m_Movement.Normalize();
 
-        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
+        bool hasHorizontalInput = !Mathf.Approximately(m_Movement.x, 0f);
+        bool hasVerticalInput = !Mathf.Approximately(m_Movement.z, 0f);
 
         bool isWalking = hasHorizontalInput || hasVerticalInput;
         m_Animator.SetBool("IsWalking", isWalking);

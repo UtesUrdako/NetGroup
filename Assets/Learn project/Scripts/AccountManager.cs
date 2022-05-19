@@ -32,11 +32,11 @@ public class AccountManager : MonoBehaviour
             CheckPlayerName(result.AccountInfo.TitleInfo.DisplayName);
             
 #if UNITY_ANDROID
-            Social.localUser.Authenticate(resultSocial =>
-            {
-                if (resultSocial)
-                    result.AccountInfo.GoogleInfo.GoogleId = Social.Active.localUser.id;
-            });
+            // Social.localUser.Authenticate(resultSocial =>
+            // {
+            //     if (resultSocial)
+            //         result.AccountInfo.GoogleInfo.GoogleId = Social.Active.localUser.id;
+            // });
 #endif
         }, error =>
         {
